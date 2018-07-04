@@ -1,8 +1,8 @@
 package in.co.hadooptutorials.data.generator.cdr;
 
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
-import java.util.UUID;
 
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.joda.time.DateTime;
@@ -17,33 +17,25 @@ public class App {
 	public static void main(String[] args) {
 		DataFactory df = new DataFactory();
 		Random r = new Random();
-		for (int i = 0; i < 100; i++) {
+        ArrayList<String> providers = new ArrayList<String>(Arrays.asList("MT","HT","ET","BA"));
+        for (int i = 0; i < 1000; i++) {
 
-			UUID id = UUID.randomUUID();
-			
+			// calling party
 			String calling_num = df.getNumberText(10);
+			String calling_tower_id = "DA"+ r.nextInt(10000);
+
+			// recipient
 			String called_num = df.getNumberText(10);
-		
+			String recipient_tower_id = providers.get(r.nextInt(4)) + r.nextInt(10000) ;
+
+			// date and time
 		    long t1 = System.currentTimeMillis() + r.nextInt();
-		    long t2 = t1 + 2 * 60 * 1000 + r.nextInt(60 * 1000) + 1;
 		    DateTime d1 = new DateTime(t1);
-		    DateTime d2 = new DateTime(t2);
-			String callType = "";
-			if ( r.nextInt() % 2 == 0){
-				callType = "VOICE";
-			} else {
-				callType = "SMS";
-			}
-			if ("SMS" == callType) {
-				d2 = new DateTime(t1);	
-			}
-			String callResult = "ANSWERED";
-			if ((i % 10 )== 0 && callType == "VOICE") {
-				callResult = "BUSY";
-				d2 = new DateTime(t1);	
-			}
-			Float charge = r.nextFloat();
-			System.out.println(id.toString()+"|"+calling_num+"|"+called_num+"|"+d1.toString()+"|"+d2.toString()+"|"+callType+"|"+charge+"|"+callResult);
+
+		    // duration in seconds
+            int duration = r.nextInt(200);
+
+			System.out.println(calling_num+"|"+calling_tower_id+"|"+called_num+"|"+recipient_tower_id+"|"+d1.toString()+"|"+duration);
 		}
 	}
 }
