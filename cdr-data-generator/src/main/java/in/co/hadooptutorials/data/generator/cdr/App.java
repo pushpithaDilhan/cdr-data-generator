@@ -26,7 +26,7 @@ public class App {
 
 			// calling party
 			String calling_num = df.getNumberText(10);
-			String calling_tower_id = "DA"+ r.nextInt(10000);
+			String calling_tower_id = providers.get(r.nextInt(4)) + r.nextInt(10000);
 
 			// recipient
 			String called_num = df.getNumberText(10);
